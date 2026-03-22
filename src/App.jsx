@@ -8,8 +8,10 @@ const App = () => {
  const [role, setrole] = useState('');
  const [imgURL, setimgURL] = useState('');
  const [userDec, setuserDec] = useState('');
+//for storing old user in localStorage and stored sting form object are comverted into object and all in usesate of setaluser by default
+ const localdata = JSON.parse(localStorage.getItem("all-user")) || []
 
-const [allUser, setallUser] = useState([])
+const [allUser, setallUser] = useState(localdata)
 
   const submitHandler = (e)=>{
     e.preventDefault(); //this is for form handling 
@@ -25,6 +27,8 @@ const [allUser, setallUser] = useState([])
     })
 
     setallUser(oldUser)
+//first create storage name all-user and all olduser in it in string form 
+    localStorage.setItem("all-user", JSON.stringify(oldUser));
 
     setuserName('');
     setrole('');
@@ -37,6 +41,8 @@ const [allUser, setallUser] = useState([])
     copyUser.splice(id,1);
 
     setallUser(copyUser);
+    
+    localStorage.setItem("all-user", JSON.stringify(copyUser));
   };
   return (
     <div className='bg-black min-h-screen items-center flex'>
@@ -84,7 +90,7 @@ const [allUser, setallUser] = useState([])
         {allUser.map(function(elem, id){
 
           return <Card elem={elem} id={id} deleteHandler={deleteHandler}/>
-        })}
+        })} 
       </div>
     </div>
   )
